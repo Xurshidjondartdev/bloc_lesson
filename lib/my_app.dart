@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       darkTheme: ThemeData.dark(),
       theme: ThemeData.light(),
-      home: const PostScreen(),
+      home:  PostScreen(),
     );
   }
 }

@@ -15,11 +15,11 @@ final class PostLoading extends PostState {
 }
 
 final class PostLoaded extends PostState {
-  final String? massege;
-  const PostLoaded({required super.postList, this.massege});
+  final String? massage;
+  const PostLoaded({required super.postList, this.massage});
 }
 
 final class PostError extends PostState {
-  final String? errorText;
+  final String errorText;
   const PostError({required super.postList, required this.errorText});
 }
