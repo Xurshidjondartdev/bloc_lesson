@@ -20,5 +20,5 @@ void setopLocator() {
   locator.registerLazySingleton<AppRepository>(() => AppRepositoryImpl(network: locator()));
 
   ///bloc
-  locator.registerLazySingleton<PostBloc>(() => PostBloc());
+  locator.registerLazySingleton<PostBloc>(() => PostBloc(repository: locator()));
 }
