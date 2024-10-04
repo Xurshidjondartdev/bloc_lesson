@@ -1,8 +1,8 @@
+import 'package:bloc_lesson/config/setup_locator.dart';
 import 'package:flutter/material.dart';
 
-class Setup {
-  void setop() {
-    WidgetsFlutterBinding.ensureInitialized();
-    setopL
-  }
+void setop() {
+  WidgetsFlutterBinding.ensureInitialized();
+  setopLocator();
+  final observer = SimpleOb
 }
