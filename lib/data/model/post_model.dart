@@ -1,64 +1,47 @@
-import 'package:dio/dio.dart';
+import 'dart:convert';
 
-abstract class Network{
-  const Network();
-  Future<Object?>get({required String api, Map<String, String>? query, String? id});
-  Future<Object?>post({required String api, required Map<String, Object?> body});
-  Future<Object?>put({required String api, Map<String, Object?>? body, required String id});
-  Future<Object?>delete({required String api, required String id});
-}
+List<PostModel> postModelFromJson(String str) =>
+    List<PostModel>.from(json.decode(str).map((x) => PostModel.fromJson(x)));
 
-class DioService extends Network{
-  final Dio dio;
-  const DioService({required this.dio});
+String postModelToJson(List<PostModel> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-  void configuration(String baseUrl){
-    dio.options = BaseOptions(
-      baseUrl: baseUrl,
-      connectTimeout: const Duration(seconds: 30),
-      receiveTimeout: const Duration(seconds: 30),
-      contentType: Headers.jsonContentType,
-    );
-  }
+class PostModel {
+  final int? userId;
+  final int? id;
+  final String? title;
+  final String? body;
 
-  @override
-  Future<Object?> get({required String api, Map<String, String>? query, String? id}) async{
-    Response response = await dio.get(api);
-    if(response.statusCode == 200 || response.statusCode == 201){
-      return response.data;
-    }else{
-      return null;
-    }
-  }
+  PostModel({
+    this.userId,
+    this.id,
+    this.title,
+    this.body,
+  });
 
-  @override
-  Future<Object?> post({required String api, required Map<String, Object?> body}) async{
-    Response response = await dio.post(api, data: body);
-    if(response.statusCode == 200 || response.statusCode == 201){
-      return response.data;
-    }else{
-      return null;
-    }
-  }
+  PostModel copyWith({
+    int? userId,
+    int? id,
+    String? title,
+    String? body,
+  }) =>
+      PostModel(
+        userId: userId ?? this.userId,
+        id: id ?? this.id,
+        title: title ?? this.title,
+        body: body ?? this.body,
+      );
 
-  @override
-  Future<Object?> put({required String api, Map<String, Object?>? body, required String id}) async {
-    Response response = await dio.put("$api/$id", data: body);
-    if(response.statusCode == 200 || response.statusCode == 201){
-      return response.data;
-    }else{
-      return null;
-    }
-  }
+  factory PostModel.fromJson(Map<String, dynamic> json) => PostModel(
+        userId: json["userId"],
+        id: json["id"],
+        title: json["title"],
+        body: json["body"],
+      );
 
-  @override
-  Future<Object?> delete({required String api, required String id}) async {
-    Response response = await dio.delete("$api/$id");
-    if(response.statusCode == 200 || response.statusCode == 201){
-      return response.data;
-    }else{
-      return null;
-    }
-  }
-
+  Map<String, dynamic> toJson() => {
+        "userId": userId,
+        "id": id,
+        "title": title,
+        "body": body,
+      };
 }
